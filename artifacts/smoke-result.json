@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-10-27T09:57:36.696Z",
+  "jobs": [
+    {
+      "id": "744ffccc-7fb2-4181-be5c-2a502e2d1e1f",
+      "status": "succeeded",
+      "engine": "tesseract"
+    },
+    {
+      "id": "8572f48f-7894-467d-a258-6d978d2a5c0e",
+      "status": "succeeded",
+      "engine": "tesseract"
+    }
+  ]
+}

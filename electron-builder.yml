@@ -1,0 +1,38 @@
+appId: org.freeocrapi.desktop
+productName: FreeOCRapi
+asar: false
+directories:
+  output: desktop/dist-electron
+files:
+  - desktop/main.cjs
+  - desktop/preload.cjs
+  - desktop/icon.png
+  - server/dist/**
+  - client/dist/**
+  - package.json
+  - LICENSE
+  - node_modules/**
+  - '!**/*.test.*'
+  - '!**/test/**'
+  - '!**/tests/**'
+extraResources:
+  - from: desktop/runtime
+    to: runtime
+win:
+  icon: desktop/icon.ico
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: zip
+      arch: [x64]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+mac:
+  category: public.app-category.productivity
+  target: [dmg, zip]
+linux:
+  icon: desktop/icon.png
+  category: Office
+  target: [AppImage, deb]

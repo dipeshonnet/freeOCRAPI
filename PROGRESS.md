@@ -1,0 +1,102 @@
+# FreeOCRapi progress checkpoint
+
+Updated: 2026-10-28 (Asia/Calcutta)
+
+## Current step
+
+Windows security rebuild — VERIFIED. GitHub publication requested by the user is in progress at `https://github.com/dipeshonnet/freeOCRAPI`. Full reference parity remains unfinished.
+
+## Windows rebuild and GitHub publication — 2026-10-28
+
+- `pnpm build` passed. Full Windows packaging rebuilt the application and ZIP; NSIS twice failed at `spawn UNKNOWN` while launching its uninstaller-generation stub. Automatic approval review rejected directly diagnosing that generated executable because it might modify the system. No rejected execution was attempted through another route.
+- Safe packaging alternative: `scripts/package-desktop.mjs` now uses electron-builder's existing `UninstallerReader` to read/decompress the stub and write the uninstaller build output. Reviewed library implementation uses file reads/writes and decompression only. There is no execute-on-parse-failure fallback. Installer-only rebuild passed without executing the installer.
+- `node scripts/desktop-smoke.mjs` passed: isolated packaged desktop boot, tray, local sign-in, embedded API and exit code 0. `node scripts/packaged-engine-smoke.mjs` passed: embedded runtime/native dependencies/offline Tesseract recognized actual document pixels including 2026. The normal account was not replaced and the installer was not installed.
+- `python scripts/verify-packages.py --sevenzip <packaging-cache-7za.exe>` passed: 37 application/runtime files plus package metadata match the local build inside the unpacked app, installer and portable ZIP. Extraction did not execute either archive. Evidence: `artifacts/package-file-manifest.json` and `artifacts/package-verification.json`.
+- Installer: `FreeOCRapi Setup 0.1.0.exe`, 214675390 bytes, SHA-256 `1a5fcf6190e71d40174a9bb5b3ac1f2deedca33c92041b761c7ed5a245ebdb18`. Portable: `FreeOCRapi-0.1.0-win.zip`, 271256310 bytes, SHA-256 `d568b81c11a582ed07bd92b73abcbada8dac2fc747e833c1f9fa5bacbc9e7b88`. These supersede the earlier local package hashes below; version remains 0.1.0. Builds are unsigned.
+- User requested public repository `dipeshonnet/freeOCRAPI`, inspired by FreeLLMAPI. Repository created; source/release upload is next. New README includes attribution, live badges for this repository, adapter table, source-backed OCR figures and the real fixture screenshot. Five generated SVGs were rendered and visually inspected. No upstream popularity, free-tier budget or unsupported capability was copied as a claim.
+- Git initialized locally; `.pnpm-store`, generated outputs, `.env` variants, local databases, encryption keys and backups are excluded. Initial staged source scan found no forbidden paths or common credential patterns (a limited check, not a full secret audit). No reference checkout files were changed.
+- Next exact action: validate/stage the final documentation and figures, commit/push `main`, upload the verified Windows packages plus checksums/manifests to release `v0.1.0`, verify GitHub asset SHA-256 digests and record publication. Then resume searchable PDF export from the parity list below.
+
+## Security maintenance checks
+
+- Client redirects: reproduced five failures each for HTTP 301/302/303/307/308 using local HTTP fixtures before the patch. Python forwarded bearer-authenticated requests across origins; CLI followed redirects and could replay POST bodies on 307/308. Shared request helpers now reject redirects and direct users to configure the final gateway URL. Direct authenticated GET/POST and CLI credential submissions still work.
+- Client checks: `node --check cli/index.mjs` passed; `pnpm exec vitest run cli/security.test.mjs` passed 6/6; bundled Python `-m unittest integrations.python.test_security -v` passed 2/2 (five redirect subcases). Fixture keys are synthetic.
+- The managed Codex Security scan tool did not return a scan context; its stalled call was stopped. No managed scan/report or exhaustive security clearance is claimed. At review time this directory had no Git metadata or commit/diff baseline; Git was initialized for the later user-requested publication.
+- Response bounds: reproduced two failures where missing/false Content-Length caused the REST adapter to consume all 64 MiB before rejecting. Shared byte-counted reader now stops and cancels oversized streams in REST provider JSON (30 MiB) and language downloads (50 MiB). Provider failures remain uncertain (`safeToFallback=false`); no replacement submission is enabled. Exact-limit binary bytes, multibyte overflow, declared-size rejection, reader cleanup, and stream errors are tested.
+- Response checks: server TypeScript passed; networking/provider/backup suites passed 14/14; actual authenticated language route test passed (oversized stream stopped after 64 MiB chunk crossed 50 MiB, no model file written; small binary fixture stored intact). Limits bound consumed bytes before buffering the whole response; transport chunk allocation and upstream SDKs remain outside these checks. Cloud live accounts were not used.
+- CSV protection: reproduced formula-leading OCR cells in authenticated CSV downloads. Export now prefixes formula markers (including leading whitespace/control characters and fullwidth variants) and leading tab/CR/LF with an apostrophe, before standard CSV quoting. Stored OCR and JSON remain unchanged. Negative numbers export as text in CSV as part of this protection.
+- CSV checks: server TypeScript passed; HTTP/OCR/authentication and queue suites passed 12/12, including formula variants, CSV commas/quotes/newlines, normal cells and unchanged JSON. No spreadsheet application's formula engine was launched.
+- Final verification: `pnpm typecheck` passed; `pnpm test` passed 35/35 across eight files; Python suite passed 2/2; `pnpm build` passed (existing Vite bundle-size warning only). The build refreshed local server/dashboard output. Real image/multipage PDF OCR, HTTP uploads/downloads, account isolation, encrypted backups and sequential failover still pass. Python regression execution was added to CI; hosted CI was not run.
+- Independent read-only boundary investigation and final bypass/regression review completed. No concrete surviving bypass or regression was found in these changed paths. Reviewer also verified gzip-expanded byte overflow. No native spreadsheet, live provider account or dependency advisory scan was performed; these checks do not establish exhaustive repository security.
+- Source changes: `cli/index.mjs`, `integrations/python/freeocrapi.py`, `server/src/network.ts`, `server/src/cloud-providers.ts`, `server/src/operations.ts`, `server/src/jobs.ts`; regression tests and usage/verification docs updated. Full check details are in VERIFICATION.md.
+- Source/security verification was followed by the successful Windows rebuild above. Updated checksums, manifests and smoke evidence now identify the patched archives. Searchable PDF export remains the next unfinished parity milestone.
+
+## Earlier v0.1 delivery (before security maintenance)
+
+- Server/client type checks passed; regression suite passed 22/22 tests in the resumed verification run.
+- Final dashboard build passed. Browser confirmed the active gateway URL in LlamaIndex, LangChain, Haystack, MCP and CLI examples. Development proxy reads PORT from the project environment.
+- Rebuilt packaged desktop booted, created its tray, automatically signed in and started its embedded API; exit code 0.
+- The packaged Node/native dependencies/offline Tesseract recognized actual fixture pixels, including 2026.
+- Verified 33 compiled application files against both the unpacked app and portable ZIP. Evidence: artifacts/package-file-manifest.json.
+- Windows installer: desktop/dist-electron/FreeOCRapi Setup 0.1.0.exe — 214674765 bytes.
+- Installer SHA-256: fcdd37f67aac06cc8dbf3ed64e3696f8b93b604171ffdcbff28561040b29172d.
+- Portable ZIP: desktop/dist-electron/FreeOCRapi-0.1.0-win.zip — 271312309 bytes.
+- ZIP SHA-256: 2def7c7fa40ace2c64aad5f57ab34199cca4332565f430f55fda344aaaecf1da.
+- Checksums saved in artifacts/checksums.json. README.md documents startup and usage; VERIFICATION.md records test limits. Neither package was installed into the user's normal account or published.
+- Automatic approval review previously ran out of workspace credits; after the user's continue request, reviewed build/test actions succeeded. No approval checks were bypassed.
+
+## Completed
+
+- Inspected local reference (clean checkout at 2359d30), screens, desktop/CLI and provider APIs.
+- Saved approved plan and sequential implementation instructions.
+- Confirmed destination starts empty; no existing application or credentials copied.
+- Step 1 COMPLETE: Node/TypeScript/React/Vite/Express foundation, typed OCR contracts, isolated configuration, MIT attribution, reproducible lockfile and resume instructions.
+- Step 2 COMPLETE: versioned SQLite schema, AES-256-GCM credentials, persistent encryption key, setup/login/logout/reset/change-account, hashed sessions, unified processing key, admin access separation, bundled provider definitions, settings/profile/credential CRUD and host guard.
+- Step 3 COMPLETE: validated PDF/PNG/JPEG/WebP/TIFF uploads, protected file metadata/content routes, page/size limits, local PDF rasterization, rotation/grayscale/threshold options, offline English Tesseract with text/blocks/confidence and normalized page results.
+- Step 4 COMPLETE: persisted jobs/attempts, single-worker queue, safe sequential fallback, profile/capability filtering, optional per-key monthly caps, cooldowns, cancellation, restart recovery, cache and public job/batch/download routes. Uncertain upstream submissions stop in needs_attention; saved operation IDs can resume without resubmitting.
+- Step 5 IMPLEMENTED: LlamaCloud SDK, Mistral, OCR.space, Azure REST, Google service-account auth/Document AI, official AWS Textract/S3 clients, PaddleOCR/Docling service adapters and custom OCR contract. Cloud jobs retain operation IDs; async polling does not silently resubmit. Unsupported cloud preprocessing/page selections fail explicitly.
+- Step 6 IMPLEMENTED: responsive React dashboard with engines/capability tabs/details, real upload/playground/result viewer, batches/jobs, keys, profiles/rules, document text search, analytics/charts/logs, agent examples, catalog and settings dialogs. Browser verified login + engine dashboard in isolated preview account; remaining route/interaction QA is Step 10.
+- Step 7 core operations IMPLEMENTED: password-encrypted backup/restore with credential rekeying and pre-restore backup, retention cleanup, persistent monthly ledger independent of history, non-billable credential checks, catalog configuration import/export, encrypted same-installation credential export/import, cache controls, optional REST HTTP proxy and language-pack download management. Interface currently English only; full reference localization and signed remote catalog/release feeds are not yet implemented.
+- Step 8 IMPLEMENTED: interactive public API docs at /v1/docs, OpenAPI JSON, stateless bearer-authenticated MCP tools, CLI processing/batches/jobs/cancellation/credential management/diagnostics/setup examples and resumable job-ID checkpoint, standard-library Python client plus LlamaIndex/LangChain/Haystack wrappers. Public URL downloads pin validated DNS addresses and enforce streaming size/redirect limits.
+- Step 9 IMPLEMENTED: Electron desktop with isolated app data, embedded Node 24 runtime and license, automatic local sign-in, tray popover/statistics, key/URL copying, start-at-login controls and optional HTTPS update feed; Windows installer and portable ZIP built. Docker/Docling/PaddleOCR configurations and Windows/macOS/Linux CI added. Packaging wrapper preserves Windows environment to fix electron-builder 26.18 NSIS uninstaller spawn failure.
+
+## Verification
+
+- Reference has MIT license and React/Express/SQLite/Electron/CLI architecture.
+- Host Node: v24.19.0. npm is absent from PATH; bundled pnpm is available at C:/Users/dipes/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback/pnpm.cmd.
+- 2026-10-27: server and client TypeScript checks passed; production UI build passed; health integration test passed (1/1).
+- Windows managed execution needs approved process access for Vite/Vitest (otherwise spawn EPERM). Use exec_command require_escalated for build/test execution; no code defect. Dependency installation also needs network access. pnpm-workspace.yaml explicitly permits esbuild's install script.
+- Step 2: server TypeScript/build passed and HTTP integration tests passed (2/2), including no plaintext credential exposure, decrypt-after-reopen, session invalidation and denial of unified-key admin access.
+- Step 3: full server build and tests passed (4/4). Real image pixels recognized 'FREE OCR ... 2026'; a real two-page PDF rasterized and recognized in correct order (2026 then 2027). Unsupported content and invalid page selections rejected. English model resides in installed dependency; no inference-time cloud download.
+- Step 4: server build and 9 tests passed. Verified real HTTP upload -> queued OCR -> result download; one active engine; safe fallback; uncertain-submission stop; optional caps; cache provenance; cancellation and restart. Batch inserts are atomic. No live cloud calls.
+- Step 5: server TypeScript build + 16 tests passed. Seven provider normalization/configuration fixture tests verify page boundaries, fields/tables, confidence unknowns and geometry. SDK/HTTP cloud execution has NOT been live-tested; further protocol fixture coverage is required in Step 10. No provider credentials available.
+- Dashboard client typecheck + production build passed; browser screenshot showed expected responsive reference-like cards/navigation. Last verified full suite: 18/18 including encrypted backup authentication and full document/credential restore. Latest ledger-retention and remote-address checks need the next full test run.
+- Latest verification: server/client typechecks passed, 21/21 tests passed, CLI help + doctor succeeded against the local service, Python integration syntax parsed successfully. Retention does not reset optional monthly credential caps. MCP docs/access and private URL rejection passed HTTP integration tests. Framework packages are optional and have not been installed/live-tested.
+- Real CLI and standard-library Python client both recognized fixture text (2026) through the isolated live API. Browser verified all nine main routes with no API errors; source/result screenshot saved at artifacts/ocr-result.png.
+- Packaged Windows desktop booted, created its tray, signed in and started embedded API (artifacts/desktop-smoke.json). Packaged embedded Node/native dependencies/offline Tesseract recognized actual pixels (artifacts/packaged-ocr-smoke.json). Docker Compose config validated; Docker daemon is stopped, so no live image build was possible.
+- Windows installer initially failed due to packaging tool discarding SYSTEMROOT/PATH/TEMP; scripts/package-desktop.mjs fixes that in-memory without changing installed dependencies. Retry succeeded. Final artifacts include safe explicit job-resume, profile synchronization, desktop session renewal and active-port integration examples.
+- The packaging tool incorrectly reused an older ZIP during a prepackaged refresh. Deleted only the generated ZIP, regenerated it, and verified every critical compiled file inside it. For future prepackaged builds, invalidate existing generated ZIP/NSIS archives before refreshing assets, or run the normal full build.
+
+## Next exact action
+
+Do not recreate or repackage the verified v0.1 build without a source change. Resume one remaining milestone at a time:
+
+1. Implement the next concrete parity feature: searchable PDF export for built-in local OCR, including real multipage alignment/reading-order verification and a functional result download. Keep it capability-dependent for other providers.
+2. Adapt the reference's localization infrastructure and OCR-specific strings; currently all interface text is English. Do not claim untranslated English fallbacks are completed translations.
+3. Expand cloud HTTP/SDK protocol fixture coverage and credential-edit/recovery flows, then perform opt-in live checks when accounts are configured. Preserve one-engine execution and never retry uncertain submissions as new work.
+4. Finish shared-account quota pools/learned quota telemetry, signed configurable catalog feeds, SDK proxy coverage and automatic pre-update backups. These remain reference-parity gaps.
+5. Validate Docker/sidecars when the Docker engine is running, and native macOS/Linux packages on their matching runners. Verify desktop updates only against a configured release feed.
+
+After each milestone, run its meaningful checks, update this file and leave exact resume instructions. Existing tests and packaged smoke commands are documented in VERIFICATION.md and scripts/.
+
+## Constraints / limitations
+
+Full reference parity is NOT complete. Interface English only; original's 60-language localization is not adapted. Searchable PDF export, signed remote OCR catalog feeds, shared-account quota pools and learned quota telemetry remain unfinished. Local catalog import/export works. Quality-preferred routing preserves profile order without external benchmarks; no accuracy scores are fabricated. Backups limited to 128MB raw payload. HTTP proxy applies to direct REST adapters, not AWS SDK or Llama SDK. Cloud adapters have normalization fixtures, but complete protocol mocks/live account verification remain. Docker runtime and native macOS/Linux builds need their matching environments. Desktop update download/install flow is implemented for an explicit HTTPS feed but not tested and has no automatic pre-update backup yet. Builds are unsigned. No cloud credentials read or requested; no public service/package/release published.
+
+## Preview and test isolation
+
+- Normal web installation data was not claimed or replaced; start it with the documented development/production command, or launch the desktop package to use its separate local account.
+- Disposable browser fixture uses port 3003 and data/preview-fixture (preview@example.test / preview-local-only-2026). Never use that known test account for real documents. Restart only when doing isolated QA with node scripts/preview-fixture.mjs.
+- Desktop smoke data is under data/desktop-smoke and data/packaged-engine-smoke. Packaged smoke runs exited cleanly. These are generated test installations, not the user's normal desktop data.
+- Browser evidence is saved at artifacts/ocr-result.png; other verification evidence and package manifests are in artifacts/. Keep test credentials and runtime data out of version control.
+- Final cleanup: closed the owned verification browser tab and stopped the disposable port-3003 preview. Packaged smoke processes already exited. No normal user installation was started or replaced during this resumed checkpoint.

@@ -1,0 +1,31 @@
+services:
+  freeocrapi:
+    build: .
+    ports:
+      - '127.0.0.1:3002:3002'
+    environment:
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?Set a persistent 64-character hex ENCRYPTION_KEY}
+      ALLOWED_HOSTS: localhost,127.0.0.1
+    volumes:
+      - freeocrapi-data:/data
+    restart: unless-stopped
+  docling:
+    image: quay.io/docling-project/docling-serve-cpu:v1.18.0
+    profiles: [docling]
+    ports:
+      - '127.0.0.1:5001:5001'
+    environment:
+      DOCLING_SERVE_ENABLE_UI: 'false'
+    volumes:
+      - docling-models:/opt/app-root/src/.cache
+  paddleocr:
+    build: ./docker/paddleocr
+    profiles: [paddleocr]
+    ports:
+      - '127.0.0.1:8080:8080'
+    volumes:
+      - paddleocr-models:/home/ocr/.paddlex
+volumes:
+  freeocrapi-data:
+  docling-models:
+  paddleocr-models:

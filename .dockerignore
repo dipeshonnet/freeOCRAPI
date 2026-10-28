@@ -1,0 +1,9 @@
+node_modules
+data
+.env*
+!.env.example
+.git
+desktop
+artifacts
+client/dist
+server/dist

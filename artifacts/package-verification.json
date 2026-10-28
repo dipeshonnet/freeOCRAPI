@@ -1,0 +1,11 @@
+{
+  "verified": true,
+  "checkedAt": "2026-10-28T08:47:18.870185+00:00",
+  "filesMatchedPerPackage": 37,
+  "metadataMatched": true,
+  "targets": [
+    "win-unpacked",
+    "FreeOCRapi Setup 0.1.0.exe",
+    "FreeOCRapi-0.1.0-win.zip"
+  ]
+}

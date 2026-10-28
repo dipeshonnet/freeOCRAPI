@@ -1,0 +1,28 @@
+name: Verify FreeOCRapi
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  verify:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm install -g pnpm@11.25.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: python -m unittest integrations.python.test_security -v
+      - run: pnpm build
+      - run: node scripts/desktop-prepare.mjs
+      - run: node scripts/package-desktop.mjs --dir --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: freeocrapi-${{ runner.os }}
+          path: desktop/dist-electron/
