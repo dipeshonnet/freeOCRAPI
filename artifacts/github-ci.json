@@ -1,0 +1,25 @@
+{
+  "verified": true,
+  "sourceCommit": "28936ffb398d3819b039e624614430db235c555a",
+  "run": "https://github.com/dipeshonnet/freeOCRAPI/actions/runs/40660130393",
+  "conclusion": "success",
+  "checkedAt": "2026-10-28T18:02:45.802Z",
+  "jobs": [
+    {
+      "name": "verify (macos-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/actions/runs/40660130393/job/122720802414"
+    },
+    {
+      "name": "verify (windows-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/actions/runs/40660130393/job/122720802653"
+    },
+    {
+      "name": "verify (ubuntu-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/actions/runs/40660130393/job/122720802745"
+    }
+  ],
+  "scope": "Type checks, 35 JS/TS tests, 2 Python tests, build and native unpacked desktop packaging per runner. Installer installation and sidecar/cloud checks are outside this workflow."
+}

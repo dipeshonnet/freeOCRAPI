@@ -1,0 +1,40 @@
+{
+  "repository": "https://github.com/dipeshonnet/freeOCRAPI",
+  "release": "https://github.com/dipeshonnet/freeOCRAPI/releases/tag/v0.1.0",
+  "tag": "v0.1.0",
+  "sourceCommit": "28936ffb398d3819b039e624614430db235c555a",
+  "published": true,
+  "checkedAt": "2026-10-28T18:00:53.545Z",
+  "assets": [
+    {
+      "name": "checksums.json",
+      "bytes": 325,
+      "digest": "sha256:15f073cfeeefc8dbac848b1c7949e81989abb27fbe6fc741d10fe9eb54291a3f",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/releases/download/v0.1.0/checksums.json"
+    },
+    {
+      "name": "FreeOCRapi-0.1.0-win.zip",
+      "bytes": 271256310,
+      "digest": "sha256:d568b81c11a582ed07bd92b73abcbada8dac2fc747e833c1f9fa5bacbc9e7b88",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/releases/download/v0.1.0/FreeOCRapi-0.1.0-win.zip"
+    },
+    {
+      "name": "FreeOCRapi.Setup.0.1.0.exe",
+      "bytes": 214675390,
+      "digest": "sha256:1a5fcf6190e71d40174a9bb5b3ac1f2deedca33c92041b761c7ed5a245ebdb18",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/releases/download/v0.1.0/FreeOCRapi.Setup.0.1.0.exe"
+    },
+    {
+      "name": "package-file-manifest.json",
+      "bytes": 8035,
+      "digest": "sha256:78b2e6dcb9bde3970382adeebc6d8140f1c42a0e1ad8c1238da17260706ba971",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/releases/download/v0.1.0/package-file-manifest.json"
+    },
+    {
+      "name": "package-verification.json",
+      "bytes": 249,
+      "digest": "sha256:f2f7d915aba38c3cb86607d32f41202394491f076d45770013d2432622ccfcf4",
+      "url": "https://github.com/dipeshonnet/freeOCRAPI/releases/download/v0.1.0/package-verification.json"
+    }
+  ]
+}

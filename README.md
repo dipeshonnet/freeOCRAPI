@@ -74,6 +74,8 @@ Get the **[Windows x64 installer or portable ZIP from Releases](https://github.c
 
 Both files were rebuilt with the security fixes recorded in [PROGRESS.md](PROGRESS.md). [Checksums](artifacts/checksums.json) and [package verification](artifacts/package-verification.json) identify this rebuild. The application version remains `0.1.0`; use the hashes to distinguish these downloads from earlier local builds.
 
+GitHub publishes the installer as `FreeOCRapi.Setup.0.1.0.exe` after replacing spaces with periods. Its contents and SHA-256 are identical to the local build named in `checksums.json`.
+
 The desktop includes an embedded Node runtime, English OCR model, local dashboard, server and tray. No separate Node installation or cloud account is required for built-in OCR. Its account signs in automatically, its data lives in the FreeOCRapi application-data folder, and its API uses port 31416 or the next available port. Web installation data stays separate.
 
 ## Development
@@ -188,6 +190,8 @@ To package desktop: `pnpm build`, `node node_modules/electron/install.js`, then 
 ![35 JavaScript/TypeScript tests, 2 Python tests and 37 matched package files](repo-assets/verification.svg)
 
 The 2026-10-28 Windows x64 snapshot passed **35 JavaScript/TypeScript tests + 2 Python tests**, type checks and production build. **37 application/runtime files and package metadata** match the local build in the unpacked app, installer and portable ZIP. Packaged desktop boot and real offline OCR passed. These measured figures do not imply live cloud, Docker runtime, native spreadsheet or macOS/Linux verification. GitHub badges display this repository's own live activity.
+
+The [initial hosted CI run](https://github.com/dipeshonnet/freeOCRAPI/actions/runs/40660130393) also passed on **Windows, macOS and Ubuntu**: type checks, tests, production build and native unpacked desktop packaging. Native macOS/Linux installer installation and runtime smoke checks remain open. [CI evidence](artifacts/github-ci.json).
 
 Automated tests cover account protection, encryption, actual image/multipage PDF OCR, serialization, safe fallback/resume, quota retention, cache, cancellation/recovery, encrypted backup/restore, URL restrictions and MCP/API access. CLI/Python and packaged-Windows smoke evidence is under `artifacts/`.
 

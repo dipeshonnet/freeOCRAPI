@@ -4,13 +4,17 @@ Windows x64, Node.js 24.19.0. Verification checkpoint finalized 2026-10-28 (Asia
 
 ## Rebuilt Windows packages — 2026-10-28
 
+- Published source: `https://github.com/dipeshonnet/freeOCRAPI`. Published Windows release: `https://github.com/dipeshonnet/freeOCRAPI/releases/tag/v0.1.0`, source commit `28936ffb398d3819b039e624614430db235c555a`.
+- All five release assets report SHA-256 digests and sizes matching local files; public download HEAD requests returned HTTP 200 with matching sizes. GitHub changes the installer name's spaces to periods. Evidence: `artifacts/github-release.json`.
+- Initial hosted CI run `40660130393` passed on Windows, macOS and Ubuntu, including type checks, 35 JS/TS tests, 2 Python tests, production build and native unpacked packaging. Evidence: `artifacts/github-ci.json`. Platform installer installation, Docker/sidecar runtime and live cloud checks remain outside those jobs.
+
 - Production build passed. Full Windows packaging refreshed the application/ZIP; NSIS failed at generated-helper launch. A direct helper diagnostic was rejected by automatic approval review and was not executed.
 - `scripts/package-desktop.mjs` now uses electron-builder's file-only `UninstallerReader` for NSIS uninstaller extraction. The installer-only retry passed without executing the generated installer. `node --check scripts/package-desktop.mjs` passed.
 - `node scripts/desktop-smoke.mjs` passed (ready, tray, local sign-in, embedded API, exit code 0); `node scripts/packaged-engine-smoke.mjs` passed (real document text includes 2026). Both used isolated test data.
 - `python scripts/verify-packages.py --sevenzip <path-to-7za.exe>` passed: 37 application/runtime files and package metadata match in the unpacked app, installer and portable ZIP. The verifier extracts and hashes files; it does not install/execute the installer. Latest evidence is in `artifacts/package-verification.json`, `artifacts/package-file-manifest.json` and `artifacts/checksums.json`.
 - Installer: 214675390 bytes, SHA-256 `1a5fcf6190e71d40174a9bb5b3ac1f2deedca33c92041b761c7ed5a245ebdb18`. ZIP: 271256310 bytes, SHA-256 `d568b81c11a582ed07bd92b73abcbada8dac2fc747e833c1f9fa5bacbc9e7b88`. Version remains 0.1.0; use hashes to distinguish the rebuild.
 - README provider counts come from the local catalog: 1 built-in + 2 optional local + 6 cloud + 1 custom = 10; five input formats, four export formats. Five repository figures were generated and visually inspected, with a real synthetic-document OCR screenshot. Live GitHub badges refer to `dipeshonnet/freeOCRAPI`.
-- Limits: unsigned packages; installer installation/uninstallation itself was not performed. macOS/Linux, live cloud, Docker/sidecar runtime and framework checks remain open. The source/regression checks below still apply; no application runtime code changed during packaging.
+- Limits: unsigned packages; installer installation/uninstallation itself was not performed. macOS/Linux installer/runtime, live cloud, Docker/sidecar runtime and framework checks remain open despite successful cross-platform CI builds. The source/regression checks below still apply; no application runtime code changed during packaging.
 
 ## Security maintenance — 2026-10-28
 
