@@ -1,10 +1,21 @@
 # FreeOCRapi progress checkpoint
 
-Updated: 2026-10-28 (Asia/Calcutta)
+Updated: 2026-10-29 (Asia/Calcutta)
 
 ## Current step
 
-Windows security rebuild and user-requested GitHub publication — VERIFIED. Public source: `https://github.com/dipeshonnet/freeOCRAPI`; release: `https://github.com/dipeshonnet/freeOCRAPI/releases/tag/v0.1.0`. Full reference parity remains unfinished; resume searchable PDF export from the parity list below.
+Free-allowance research and repository documentation update requested 2026-10-29 — VERIFIED within the reviewed public-plan scope. Windows release remains `v0.1.0`. Full reference parity remains unfinished; resume searchable PDF export after syncing this documentation update to `main`.
+
+## Free allowances across all 10 adapters — 2026-10-29
+
+- Read current official provider plans, limits and project sources. Recorded all ten adapters in `docs/free-allowances.json`, with dates, units, exclusions and source URLs. No provider account, credential or remaining balance was inspected.
+- Recurring 30-day, single-page scenario: LlamaParse Free 10,000 credits at Fast 1 credit/page + OCR.space min(25,000 requests/month, 500 requests/day/IP × 30) + Azure F0 500 pages/month + Google standard Enterprise Document OCR 1,000 pages/month = 26,500 page equivalents. Eligibility, unspent allowances, no add-ons/retries and independent billing cycles are material conditions.
+- Packed-PDF scenario: every OCR.space request contains three pages fitting 1 MB, producing 45,000 OCR.space pages and a 56,500-page total. This is conditional preparation, not an automatic packing feature. Eligible new-customer Textract text OCR adds 1,000 pages/month for three months: trial-inclusive scenarios 27,500 / 57,500. Other Textract feature allowances are not stacked into basic text OCR.
+- Three self-hosted engines have no provider credit meter; no finite credits or infinite throughput are invented. Mistral's public free-mode sources defer limits to the account; custom endpoints are service-specific. These two remain unknown and excluded, not zero. General cloud signup dollar credits are not added to recurring pages.
+- Reconciled source differences: current LlamaParse OCR documentation confirms Fast supports basic scanned text. Google's detailed Enterprise Document OCR free band and monthly OCR statement support the processor-specific allowance; generic summaries may omit it. Stale cached Mistral snippets advertising $10/month were excluded because the live Free plan did not establish that grant.
+- README headline/table/calculations and the new `repo-assets/free-allowances.svg` present both scenarios and conditions. The figure generator reads the dated snapshot and verifies exact catalog coverage. Updated the comparison figure's previous blanket no-total statement. No runtime health/capability/quota settings or installer bytes changed.
+- Validation passed: `node --check scripts/readme-assets.mjs`; formatting; successful figure generation; exact one-to-one coverage of 10 catalog IDs; null values preserved for unknown/unmetered allowances; independent PowerShell arithmetic for 26,500/56,500 and 27,500/57,500 trial scenarios; all 21 local README resources present; `git diff --check`; rendered PNG inspection of the new figure. All values/units/conditions were readable with no clipped text. Ready within reviewed scope: public-plan research and planning arithmetic, not live-account OCR capacity.
+- Publication target is `main` at `https://github.com/dipeshonnet/freeOCRAPI`. Remote branch was checked before commit and had no newer changes. After the documentation sync/readback, resume searchable PDF export. Do not repackage a documentation-only update.
 
 ## Windows rebuild and GitHub publication — 2026-10-28
 

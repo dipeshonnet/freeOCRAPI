@@ -4,6 +4,8 @@
 
 **10 OCR adapters. 5 input formats. 4 export formats. One local gateway.**
 
+**Quantified free tiers: up to 26,500 single-page OCR equivalents per 30 days** across four documented cloud allowances. A packed-PDF scenario reaches 56,500 pages; eligible Textract trial users can add 1,000 pages/month for three months. [Calculation, all 10 adapters and conditions below](#free-allowances-and-total).
+
 Turn images and PDFs into text, Markdown and structured page results through a dashboard, Windows desktop app, CLI or API. Built-in Tesseract runs offline. Add cloud providers or self-hosted services when a document needs them.
 
 [![CI](https://github.com/dipeshonnet/freeOCRAPI/actions/workflows/ci.yml/badge.svg)](https://github.com/dipeshonnet/freeOCRAPI/actions/workflows/ci.yml)
@@ -26,7 +28,7 @@ Turn images and PDFs into text, Markdown and structured page results through a d
 
 ## Contents
 
-[Why this exists](#why-this-exists) · [Providers](#supported-providers) · [Features](#features) · [Windows desktop](#windows-desktop) · [Development](#development) · [API](#api-and-integrations) · [Screenshot](#screenshot) · [Architecture](#how-it-works) · [Operations](#operations) · [Verification](#verification-and-continuation) · [FAQ](#faq) · [Contributing](#contributing) · [Attribution](#attribution)
+[Why this exists](#why-this-exists) · [Providers](#supported-providers) · [Free allowances and total](#free-allowances-and-total) · [Features](#features) · [Windows desktop](#windows-desktop) · [Development](#development) · [API](#api-and-integrations) · [Screenshot](#screenshot) · [Architecture](#how-it-works) · [Operations](#operations) · [Verification](#verification-and-continuation) · [FAQ](#faq) · [Contributing](#contributing) · [Attribution](#attribution)
 
 ## Why this exists
 
@@ -34,7 +36,7 @@ OCR tools differ in their setup, output structure, formats and quotas. Switching
 
 freeOCRAPI puts those choices behind one interface. Upload once, choose an engine or routing profile, and receive results with serving-engine and page provenance. Provider keys stay encrypted in your installation. Your applications use a single processing key. One engine processes each document attempt, with safe sequential fallback.
 
-The gateway is MIT-licensed and bundled Tesseract needs no cloud account. Cloud services retain their own prices, accounts and plan limits. No shared free-page budget or universal accuracy score is claimed.
+The gateway is MIT-licensed and bundled Tesseract needs no cloud account. Cloud services retain their own prices, accounts and plan limits. The free-tier figures below are conditional planning ceilings across separate providers, not a shared credit balance or an accuracy benchmark.
 
 ## Supported providers
 
@@ -56,6 +58,45 @@ The gateway is MIT-licensed and bundled Tesseract needs no cloud account. Cloud 
 **10 adapters = 1 built-in engine + 2 optional local services + 6 cloud adapters + 1 custom adapter.** These are implemented integrations, not ten bundled models. See the [catalog](server/src/catalog.ts) for exact format and capability declarations.
 
 ![Built-in, self-hosted, cloud and custom execution options](repo-assets/comparison.svg)
+
+## Free allowances and total
+
+**Checked 29 October 2026.** Credits, requests, pages and local compute are different units. All ten adapters are covered below; only four publish recurring allowances that can be normalized for this basic-OCR scenario. These are advertised plans, not your remaining balance. Eligibility, account-wide use, reset dates, rate limits and provider changes apply.
+
+![26,500 single-page equivalents per 30 days; 56,500 packed-PDF ceiling; a separate 1,000-page Textract trial increment](repo-assets/free-allowances.svg)
+
+| Adapter | Advertised free allowance | Treatment and conditions | Official source |
+| --- | --- | --- | --- |
+| Tesseract | No provider credit/page meter when run locally | Not a numeric grant. Your hardware, electricity and configured gateway limits apply. | [Project](https://github.com/naptha/tesseract.js) |
+| LlamaParse | **10,000 credits/month** on Free | **10,000 basic OCR pages** at Fast's 1 credit/page, with all credits used for parsing and no add-ons. Other tiers consume more. | [Plan](https://developers.llamaindex.ai/llamaparse/general/billing/) · [Rates](https://developers.llamaindex.ai/llamaparse/general/pricing/) · [Fast OCR](https://developers.llamaindex.ai/llamaparse/parse/features/ocr-and-languages/) |
+| Mistral OCR | Free-mode usage is account/organization-specific | No universal numeric monthly credit/page grant established from the live public sources. **Excluded as unquantified, not zero.** Check your Limits page. | [Usage/limits](https://docs.mistral.ai/admin/billing-usage/usage-limits) · [Live plans](https://mistral.ai/pricing/) |
+| OCR.space | **25,000 requests/month**, also **500 requests/day/IP** | 30-day effective ceiling: **15,000 requests**. Free uploads: 1 MB, up to 3 PDF pages/request. Baseline assumes one page/request; packed-PDF scenario assumes three. | [API plans and limits](https://ocr.space/ocrapi) |
+| Azure Document Intelligence | **500 pages/month**, Free F0 resource | Included only for eligible F0 use, not S0 paid usage. F0 processes at most two pages/request; 4 MB file limit. | [Pricing](https://azure.microsoft.com/en-us/pricing/details/document-intelligence/) · [Limits](https://learn.microsoft.com/en-gb/azure/ai-services/document-intelligence/service-limits?view=doc-intel-2.1.0) |
+| Google Document AI | **1,000 standard Document OCR pages/month** | Enterprise Document OCR only; other processors/add-ons differ. No separate Cloud Vision allowance is added. | [Detailed OCR pricing](https://cloud.google.com/products/document-ai/pricing) · [Monthly OCR allowance](https://cloud.google.com/use-cases/ocr) |
+| Amazon Textract | **1,000 text-OCR pages/month for three months**, eligible new customers | Trial increment only, excluded from recurring total. Forms/Tables/Layout have a separate 100-page allowance that is not stacked into this basic-text calculation. S3/other costs may apply. | [Free tier](https://aws.amazon.com/textract/pricing/) |
+| PaddleOCR | No provider credit/page meter when self-hosted | Hardware/hosting and service limits apply. Hosted third-party offerings can charge. | [Project](https://github.com/PaddlePaddle/PaddleOCR) |
+| Docling | No provider credit/page meter when self-hosted | Hardware/hosting and service limits apply. Hosted third-party offerings can charge. | [Project](https://github.com/docling-project/docling) |
+| Custom OCR endpoint | **Unknown; endpoint-specific** | The adapter supplies no independent credits. Do not assume the configured service is free. | [Local contract](server/src/cloud-providers.ts) |
+
+### Comparable totals
+
+For **one page per OCR.space request** over a **30-day planning month**:
+
+```text
+LlamaParse Fast   10,000 credits / 1 credit per page        = 10,000 pages
+OCR.space        min(25,000, 500 requests/day × 30) × 1     = 15,000 pages
+Azure F0                                                   =    500 pages
+Google standard Document OCR                               =  1,000 pages
+Recurring single-page planning total                       = 26,500 pages
+Eligible Textract text-OCR trial increment                  =  1,000 pages
+With the Textract trial, first three eligible months        = 27,500 pages
+```
+
+If **every OCR.space request instead holds a three-page PDF within 1 MB**, the OCR.space contribution is `15,000 × 3 = 45,000` pages. That gives a **56,500-page recurring packed-PDF ceiling**, or **57,500** during the eligible Textract trial. File preparation/packing is an assumption, not an automatic gateway feature. Shorter/longer months affect the daily-limited OCR.space contribution.
+
+The three self-hosted engines are outside these finite totals: no provider credit meter does not mean infinite throughput or free hardware. Mistral/custom capacity remains unknown. General cloud signup dollar credits are not added or converted to pages, and retries, add-ons or other account usage reduce available capacity. The gateway does not automatically enforce these advertised provider plans; configure optional caps and verify your account's current allowance.
+
+The Google calculation uses the specific detailed Enterprise Document OCR free band plus the monthly OCR statement; generic product summaries can omit that processor-specific allowance. Cached Mistral search snippets advertising $10/month were rejected because the current live Free plan does not establish that universal grant. [Dated inputs and source notes](docs/free-allowances.json) preserve this distinction.
 
 ## Features
 

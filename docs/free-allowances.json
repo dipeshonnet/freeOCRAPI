@@ -1,0 +1,118 @@
+{
+  "checkedOn": "2026-10-29",
+  "timezone": "Asia/Calcutta",
+  "scope": "Public advertised allowances, not configured-account balances or measured OCR throughput",
+  "planningDays": 30,
+  "providers": [
+    {
+      "id": "tesseract",
+      "name": "Tesseract",
+      "kind": "self_hosted",
+      "monthlyAllowance": null,
+      "note": "No provider credit meter when run locally; hardware, electricity and gateway limits still apply.",
+      "sources": ["https://github.com/naptha/tesseract.js"]
+    },
+    {
+      "id": "llamaparse",
+      "name": "LlamaParse",
+      "kind": "recurring_credits",
+      "monthlyCredits": 10000,
+      "creditsPerPage": 1,
+      "tier": "fast",
+      "note": "Free-plan credits allocated entirely to Fast basic OCR, without add-ons or other platform usage; richer tiers cost more.",
+      "sources": [
+        "https://developers.llamaindex.ai/llamaparse/general/billing/",
+        "https://developers.llamaindex.ai/llamaparse/general/pricing/",
+        "https://developers.llamaindex.ai/llamaparse/parse/features/ocr-and-languages/"
+      ]
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral OCR",
+      "kind": "account_specific",
+      "monthlyAllowance": null,
+      "note": "Free mode has organization-specific included usage and OCR limits. Current live sources do not establish a universal fixed credit/page grant; excluded, not counted as zero. Cached $10/month search snippets were not used.",
+      "sources": [
+        "https://docs.mistral.ai/admin/billing-usage/usage-limits",
+        "https://mistral.ai/pricing/"
+      ]
+    },
+    {
+      "id": "ocrspace",
+      "name": "OCR.space",
+      "kind": "recurring_requests",
+      "monthlyRequests": 25000,
+      "requestsPerDayPerIp": 500,
+      "maxPdfPagesPerRequest": 3,
+      "maxFileMB": 1,
+      "note": "Apply both monthly and daily caps. One page/request for the baseline; three-page PDFs fitting the file limit only in the packed-PDF scenario.",
+      "sources": ["https://ocr.space/ocrapi"]
+    },
+    {
+      "id": "azure",
+      "name": "Azure Document Intelligence",
+      "kind": "recurring_pages",
+      "monthlyPages": 500,
+      "maxPagesPerRequest": 2,
+      "maxFileMB": 4,
+      "note": "Requires an eligible Free F0 resource; F0 processes at most two pages/request. Paid-resource usage is not free just because F0 exists.",
+      "sources": [
+        "https://azure.microsoft.com/en-us/pricing/details/document-intelligence/",
+        "https://learn.microsoft.com/en-gb/azure/ai-services/document-intelligence/service-limits?view=doc-intel-2.1.0"
+      ]
+    },
+    {
+      "id": "google",
+      "name": "Google Document AI",
+      "kind": "recurring_pages",
+      "monthlyPages": 1000,
+      "processor": "Enterprise Document OCR",
+      "note": "Only the advertised standard Document OCR free band is counted. Other processors/add-ons differ; no separate Cloud Vision allowance is added. Detailed pricing and the OCR overview support this figure; the generic product summary omits the free band.",
+      "sources": [
+        "https://cloud.google.com/products/document-ai/pricing",
+        "https://cloud.google.com/use-cases/ocr"
+      ]
+    },
+    {
+      "id": "textract",
+      "name": "Amazon Textract",
+      "kind": "trial_pages",
+      "textPagesPerMonth": 1000,
+      "trialMonths": 3,
+      "analysisPagesPerMonth": 100,
+      "note": "New-customer trial only. Text OCR is counted separately from the recurring total; Forms/Tables/Layout allowance is not stacked onto the basic-text scenario. S3/other service charges can apply.",
+      "sources": ["https://aws.amazon.com/textract/pricing/"]
+    },
+    {
+      "id": "paddleocr",
+      "name": "PaddleOCR",
+      "kind": "self_hosted",
+      "monthlyAllowance": null,
+      "note": "Self-hosted software has no provider page-credit meter; compute/hosting and service limits apply.",
+      "sources": ["https://github.com/PaddlePaddle/PaddleOCR"]
+    },
+    {
+      "id": "docling",
+      "name": "Docling",
+      "kind": "self_hosted",
+      "monthlyAllowance": null,
+      "note": "Self-hosted software has no provider page-credit meter; compute/hosting and service limits apply.",
+      "sources": ["https://github.com/docling-project/docling"]
+    },
+    {
+      "id": "custom",
+      "name": "Custom OCR endpoint",
+      "kind": "custom",
+      "monthlyAllowance": null,
+      "note": "Depends on the configured service. The adapter itself supplies no independent credits and cannot be assumed free.",
+      "sources": ["server/src/catalog.ts", "server/src/cloud-providers.ts"]
+    }
+  ],
+  "assumptions": [
+    "One eligible account/organization per provider, no key/account/IP multiplication, all relevant included usage unspent and allocated to OCR.",
+    "Planning ceilings, not throughput, live balances, billing guarantees or a fungible pooled credit balance. Provider reset dates can differ.",
+    "No retries, duplicate processing, add-ons or failed/uncertain submissions consuming allowance. Other account usage reduces capacity.",
+    "Recurring baseline uses one page per OCR.space request; the packed-PDF ceiling assumes every OCR.space request contains three pages within 1 MB.",
+    "Promotional dollar credits, storage, compute costs, unquantified Mistral usage, custom services and local engine capacity are excluded from page sums."
+  ]
+}

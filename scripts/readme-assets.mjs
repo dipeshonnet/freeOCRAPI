@@ -1,5 +1,5 @@
 // Source-backed repository figures. Run after pnpm build.
-import { mkdir, writeFile, copyFile } from "node:fs/promises";
+import { mkdir, writeFile, copyFile, readFile } from "node:fs/promises";
 import { catalog } from "../server/dist/catalog.js";
 
 const directory = new URL("../repo-assets/", import.meta.url);
@@ -22,6 +22,126 @@ const cloud = catalog.filter(
   (engine) => !engine.local && engine.id !== "custom",
 );
 const formats = [...new Set(catalog.flatMap((engine) => engine.formats))];
+const allowances = JSON.parse(
+  await readFile(
+    new URL("../docs/free-allowances.json", import.meta.url),
+    "utf8",
+  ),
+);
+if (
+  allowances.providers.length !== catalog.length ||
+  new Set(allowances.providers.map((provider) => provider.id)).size !==
+    catalog.length ||
+  catalog.some(
+    (engine) =>
+      !allowances.providers.some((provider) => provider.id === engine.id),
+  )
+)
+  throw new Error(
+    "Allowance snapshot must cover each catalog adapter exactly once.",
+  );
+const monthlyPages = (provider, pagesPerRequest = 1) => {
+  if (provider.kind === "recurring_credits")
+    return Math.floor(provider.monthlyCredits / provider.creditsPerPage);
+  if (provider.kind === "recurring_pages") return provider.monthlyPages;
+  if (provider.kind === "recurring_requests")
+    return (
+      Math.min(
+        provider.monthlyRequests,
+        provider.requestsPerDayPerIp * allowances.planningDays,
+      ) * pagesPerRequest
+    );
+  return null;
+};
+const recurring = allowances.providers.filter(
+  (provider) => monthlyPages(provider) !== null,
+);
+const baseline = recurring.reduce(
+  (total, provider) => total + monthlyPages(provider),
+  0,
+);
+const barMaximum = Math.max(
+  ...recurring.map((provider) => monthlyPages(provider)),
+);
+const packedPdf = recurring.reduce(
+  (total, provider) =>
+    total + monthlyPages(provider, provider.maxPdfPagesPerRequest || 1),
+  0,
+);
+const trial = allowances.providers.find(
+  (provider) => provider.id === "textract",
+).textPagesPerMonth;
+const number = (value) => value.toLocaleString("en-US");
+await figure(
+  "free-allowances.svg",
+  "Quantified free-tier planning capacity",
+  `Checked ${allowances.checkedOn} · ${allowances.planningDays}-day scenarios · eligible accounts required; not live balances`,
+  790,
+  [
+    [
+      number(baseline),
+      "SINGLE-PAGE EQUIVALENTS",
+      "Four quantified recurring cloud allowances",
+    ],
+    [
+      number(packedPdf),
+      "PACKED-PDF PAGE CEILING",
+      "Every OCR.space request: 3 PDF pages / 1 MB",
+    ],
+    [
+      `+${number(trial)}`,
+      "TEXTRACT PAGES / MONTH",
+      "Eligible new customers, first 3 months only",
+    ],
+  ]
+    .map(([value, label, note], i) => {
+      const x = 44 + i * 378;
+      return (
+        box(x, 183, 356, 150) +
+        text(x + 20, 243, value, 46, "#fff", 700) +
+        text(x + 20, 282, label, 13, "#d4d4db", 600) +
+        text(x + 20, 311, note, 12)
+      );
+    })
+    .join("") +
+    text(
+      44,
+      378,
+      "Single-page equivalents per 30-day planning month",
+      20,
+      "#fff",
+      600,
+    ) +
+    recurring
+      .map((provider, i) => {
+        const value = monthlyPages(provider),
+          y = 420 + i * 56;
+        return (
+          text(44, y + 20, provider.name, 16) +
+          `<rect x="285" y="${y}" width="${(value / barMaximum) * 735}" height="28" rx="5" fill="#bcbcc7"/>` +
+          text(1044, y + 21, number(value), 16, "#fff", 600)
+        );
+      })
+      .join("") +
+    text(
+      44,
+      677,
+      "LlamaParse Fast: 1 credit/page. OCR.space: min(25,000/month, 500/day × 30) requests.",
+      16,
+    ) +
+    text(
+      44,
+      710,
+      "3 self-hosted engines: no provider credit meter; hardware limits/costs apply. Mistral/custom: unquantified.",
+      15,
+    ) +
+    text(
+      44,
+      743,
+      "Independent quotas, not one shared credit pool. Sources, limits and scenario calculations are in the README.",
+      15,
+    ),
+);
 await figure(
   "overview.svg",
   "Your documents. One OCR gateway.",
@@ -183,7 +303,7 @@ await figure(
     text(
       44,
       467,
-      "No shared free-page total or accuracy benchmark is claimed. Tesseract needs no provider key.",
+      "Free-tier planning scenarios are documented separately. Tesseract needs no provider key.",
       15,
     ),
 );
@@ -218,5 +338,5 @@ await copyFile(
   new URL("ocr-result.png", directory),
 );
 console.log(
-  "Generated five OCR-specific figures and copied the verified OCR screenshot.",
+  `Generated six OCR-specific figures; recurring baseline ${number(baseline)}, packed-PDF ceiling ${number(packedPdf)}, trial increment ${number(trial)}.`,
 );

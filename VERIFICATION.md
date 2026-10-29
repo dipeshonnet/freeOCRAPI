@@ -2,6 +2,13 @@
 
 Windows x64, Node.js 24.19.0. Verification checkpoint finalized 2026-10-28 (Asia/Calcutta).
 
+## Free-allowance documentation — 2026-10-29
+
+- All ten catalog adapters covered by a dated public-plan snapshot in `docs/free-allowances.json`; no configured accounts or balances queried.
+- Read official plan/rate/limit sources. Recurring basic-text scenario normalizes only LlamaParse Fast, OCR.space, Azure F0 and Google Enterprise Document OCR. Raw units, monthly/daily constraints, PDF packing, trials and unknown/unmetered providers stay distinct.
+- Independent arithmetic: 10,000 + min(25,000, 500 × 30) + 500 + 1,000 = 26,500 single-page equivalents; with three-page OCR.space PDFs, 10,000 + 45,000 + 500 + 1,000 = 56,500. Eligible three-month Textract trial adds 1,000 to each scenario. No shared monetary/credit balance is claimed.
+- README includes all ten entries and official citations. The figure was rendered to PNG and visually checked for readable values, labels, units and qualifications. Unknown/local capacity stays outside finite sums. This is a documentation-only change; application tests, live cloud calls and installer rebuilds are not required and were not repeated.
+
 ## Rebuilt Windows packages — 2026-10-28
 
 - Published source: `https://github.com/dipeshonnet/freeOCRAPI`. Published Windows release: `https://github.com/dipeshonnet/freeOCRAPI/releases/tag/v0.1.0`, source commit `28936ffb398d3819b039e624614430db235c555a`.
